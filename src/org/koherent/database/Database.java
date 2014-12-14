@@ -1,46 +1,54 @@
 package org.koherent.database;
 
 import java.util.Iterator;
-import java.util.List;
 
 public interface Database<I, V extends Value<I>> {
-	public boolean exists(I id) throws InterruptedTransactionException;
+	public boolean exists(I id) throws DatabaseException;
 
-	public List<I> getIds(int limit) throws InterruptedTransactionException;
+	@SuppressWarnings("unchecked")
+	public Iterator<? extends I> getExistingIds(I... ids)
+			throws DatabaseException;
 
-	public List<I> getIds(int limit, int offset)
-			throws InterruptedTransactionException;
+	public Iterator<? extends I> getExistingIds(Iterable<? extends I> ids)
+			throws DatabaseException;
 
-	public Iterator<I> getAllIds() throws InterruptedTransactionException;
+	public Iterator<? extends I> getIds(int limit) throws DatabaseException;
 
-	public V get(I id) throws InterruptedTransactionException,
-			IdNotFoundException;
+	public Iterator<? extends I> getIds(int limit, int offset)
+			throws DatabaseException;
 
-	public List<V> get(I... ids) throws InterruptedTransactionException,
-			IdNotFoundException;
+	public Iterator<? extends I> getAllIds() throws DatabaseException;
 
-	public List<V> get(Iterable<I> ids) throws InterruptedTransactionException,
-			IdNotFoundException;
+	public V get(I id) throws IdNotFoundException, DatabaseException;
 
-	public List<V> get(int limit) throws InterruptedTransactionException;
+	@SuppressWarnings("unchecked")
+	public Iterator<? extends V> get(I... ids) throws DatabaseException;
 
-	public List<V> get(int limit, int offset)
-			throws InterruptedTransactionException;
+	public Iterator<? extends V> get(Iterable<? extends I> ids)
+			throws DatabaseException;
 
-	public Iterator<V> getAll() throws InterruptedTransactionException;
+	public Iterator<? extends V> get(int limit) throws DatabaseException;
 
-	public I add(V value) throws InterruptedTransactionException,
-			DuplicateIdException;
+	public Iterator<? extends V> get(int limit, int offset)
+			throws DatabaseException;
 
-	public void put(V value) throws InterruptedTransactionException;
+	public Iterator<? extends V> getAll() throws DatabaseException;
 
-	public void put(Iterable<V> values) throws InterruptedTransactionException;
+	public I add(V value) throws DatabaseException, DuplicateIdException;
 
-	public void remove(I id) throws InterruptedTransactionException;
+	public void put(V value) throws DatabaseException;
 
-	public void remove(Iterable<I> ids) throws InterruptedTransactionException;
+	@SuppressWarnings("unchecked")
+	public void put(V... values) throws DatabaseException;
 
-	public void remove(int limit) throws InterruptedTransactionException;
+	public void put(Iterable<? extends V> values) throws DatabaseException;
 
-	public void removeAll() throws InterruptedTransactionException;
+	public void remove(I id) throws DatabaseException;
+
+	@SuppressWarnings("unchecked")
+	public void remove(I... ids) throws DatabaseException;
+
+	public void remove(Iterable<? extends I> ids) throws DatabaseException;
+
+	public void removeAll() throws DatabaseException;
 }

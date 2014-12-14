@@ -1,6 +1,6 @@
 package org.koherent.database;
 
-public class IdException extends DatabaseException {
+public class IdException extends Exception {
 	private static final long serialVersionUID = 1L;
 
 	private Object id;
