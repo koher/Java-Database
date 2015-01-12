@@ -1,6 +1,7 @@
 package org.koherent.database;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.Before;
@@ -9,11 +10,11 @@ import org.junit.Test;
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 
-public abstract class DatabaseTest<I, V extends Value<I>> {
+public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, V>> {
 	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
 			new LocalDatastoreServiceTestConfig());
 
-	protected abstract Database<I, V> getDatabase();
+	protected abstract D getDatabase();
 
 	protected abstract V createNewValue();
 
@@ -29,7 +30,7 @@ public abstract class DatabaseTest<I, V extends Value<I>> {
 
 	@Test
 	public void testPutAndGet() {
-		Database<I, V> database = getDatabase();
+		D database = getDatabase();
 
 		V value = createNewValue();
 		try {
