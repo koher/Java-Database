@@ -7,32 +7,30 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-
 public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, V>> {
-	private final LocalServiceTestHelper helper = new LocalServiceTestHelper(
-			new LocalDatastoreServiceTestConfig());
-
 	protected abstract D getDatabase();
 
-	protected abstract V createNewValue();
+	protected abstract V createValue();
 
 	@Before
 	public void setUp() {
-		helper.setUp();
+		setUpDatabase();
 	}
 
 	@After
 	public void tearDown() {
-		helper.tearDown();
+		tearDownDatabase();
 	}
+
+	protected abstract void setUpDatabase();
+
+	protected abstract void tearDownDatabase();
 
 	@Test
 	public void testPutAndGet() {
 		D database = getDatabase();
 
-		V value = createNewValue();
+		V value = createValue();
 		try {
 			database.put(value);
 		} catch (DatabaseException e) {
