@@ -3,6 +3,10 @@ package org.koherent.database;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,6 +46,38 @@ public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, 
 			V gotten = database.get(value.getId());
 			assertEquals(value, gotten);
 		} catch (IdNotFoundException | DatabaseException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+
+	@Test
+	public void testGetAll() {
+		D database = getDatabase();
+
+		final int N = 100;
+
+		Map<I, V> idToValue = new HashMap<I, V>();
+		for (int i = 0; i < N; i++) {
+			V value = createValue();
+			try {
+				database.put(value);
+			} catch (DatabaseException e) {
+				e.printStackTrace();
+				fail(e.getMessage());
+			}
+			idToValue.put(value.getId(), value);
+		}
+
+		try {
+			Iterator<? extends V> valueItetator = database.getAll();
+			while (valueItetator.hasNext()) {
+				V value = valueItetator.next();
+				assertEquals(idToValue.get(value.getId()), value);
+				idToValue.remove(value.getId());
+			}
+			assertEquals(0, idToValue.size());
+		} catch (DatabaseException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
