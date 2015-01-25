@@ -1,38 +1,36 @@
 package org.koherent.database;
 
-import java.util.Iterator;
-
 public interface Database<I, V extends Value<I>> {
 	public boolean exists(I id) throws DatabaseException;
 
 	@SuppressWarnings("unchecked")
-	public Iterator<? extends I> getExistingIds(I... ids)
+	public Iterable<? extends I> getExistingIds(I... ids)
 			throws DatabaseException;
 
-	public Iterator<? extends I> getExistingIds(Iterable<? extends I> ids)
+	public Iterable<? extends I> getExistingIds(Iterable<? extends I> ids)
 			throws DatabaseException;
 
-	public Iterator<? extends I> getIds(int limit) throws DatabaseException;
+	public Iterable<? extends I> getIds(int limit) throws DatabaseException;
 
-	public Iterator<? extends I> getIds(int limit, int offset)
+	public Iterable<? extends I> getIds(int limit, int offset)
 			throws DatabaseException;
 
-	public Iterator<? extends I> getAllIds() throws DatabaseException;
+	public Iterable<? extends I> getAllIds() throws DatabaseException;
 
 	public V get(I id) throws IdNotFoundException, DatabaseException;
 
 	@SuppressWarnings("unchecked")
-	public Iterator<? extends V> get(I... ids) throws DatabaseException;
+	public Iterable<? extends V> get(I... ids) throws DatabaseException;
 
-	public Iterator<? extends V> get(Iterable<? extends I> ids)
+	public Iterable<? extends V> get(Iterable<? extends I> ids)
 			throws DatabaseException;
 
-	public Iterator<? extends V> get(int limit) throws DatabaseException;
+	public Iterable<? extends V> get(int limit) throws DatabaseException;
 
-	public Iterator<? extends V> get(int limit, int offset)
+	public Iterable<? extends V> get(int limit, int offset)
 			throws DatabaseException;
 
-	public Iterator<? extends V> getAll() throws DatabaseException;
+	public Iterable<? extends V> getAll() throws DatabaseException;
 
 	public I add(V value) throws DatabaseException, DuplicateIdException;
 

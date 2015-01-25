@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.junit.After;
@@ -44,7 +43,7 @@ public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, 
 
 		try {
 			V gotten = database.get(value.getId());
-			assertEquals(value, gotten);
+			assertValuesEqual(value, gotten);
 		} catch (IdNotFoundException | DatabaseException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -70,10 +69,8 @@ public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, 
 		}
 
 		try {
-			Iterator<? extends V> valueItetator = database.getAll();
-			while (valueItetator.hasNext()) {
-				V value = valueItetator.next();
-				assertEquals(idToValue.get(value.getId()), value);
+			for (V value : database.getAll()) {
+				assertValuesEqual(idToValue.get(value.getId()), value);
 				idToValue.remove(value.getId());
 			}
 			assertEquals(0, idToValue.size());
@@ -81,5 +78,9 @@ public abstract class DatabaseTest<I, V extends Value<I>, D extends Database<I, 
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
+	}
+
+	protected void assertValuesEqual(V expected, V actual) {
+		assertEquals(expected, actual);
 	}
 }
