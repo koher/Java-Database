@@ -1,8 +1,7 @@
 package org.koherent.database;
 
+@SuppressWarnings("serial")
 public class IdException extends Exception {
-	private static final long serialVersionUID = 1L;
-
 	private Object id;
 
 	public IdException(Object id) {
