@@ -49,4 +49,11 @@ public interface Database<I, V extends Value<I>> {
 	public void remove(Iterable<? extends I> ids) throws DatabaseException;
 
 	public void removeAll() throws DatabaseException;
+
+	public V update(I id, Updater<V> updater) throws IllegalUpdateException,
+			DatabaseException;
+
+	public static interface Updater<V> {
+		V update(V value);
+	}
 }
